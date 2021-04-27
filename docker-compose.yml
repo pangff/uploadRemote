@@ -17,8 +17,9 @@ services:
       - UPDATE_TRACKERS=true
       - CUSTOM_TRACKER_URL=
       - TZ=Asia/Shanghai
+      - SPECIAL_MODE=rclone
     volumes:
-      - ${PWD}/config:/config
+      - ${PWD}/config/aria2:/config
       - ${PWD}/downloads:/downloads
 # If you use host network mode, then no port mapping is required.
 # This is the easiest way to use IPv6 networks.
