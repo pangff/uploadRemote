@@ -1,0 +1,4 @@
+# 设置环境变量，设置好改名为 .env
+ARIA2_RPC_SECRET=
+UPLOAD_NOTICE_URL=
+ARIA2_GATEWAY_PORT=

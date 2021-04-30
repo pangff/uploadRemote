@@ -1,15 +1,13 @@
-version: "3.3"
-
 services:
 
   Aria2-Pro:
     container_name: aria2-pro
-    image: p3terx/aria2-pro
+    image: pangff/aria2-pro
     environment:
       - PUID=65534
       - PGID=65534
       - UMASK_SET=022
-      - RPC_SECRET=P3TERX
+      - RPC_SECRET=${ARIA2_RPC_SECRET}
       - RPC_PORT=6800
       - LISTEN_PORT=6888
       - DISK_CACHE=64M
@@ -18,6 +16,7 @@ services:
       - CUSTOM_TRACKER_URL=
       - TZ=Asia/Shanghai
       - SPECIAL_MODE=rclone
+      - UPLOAD_NOTICE_URL=${UPLOAD_NOTICE_URL}
     volumes:
       - ${PWD}/config:/config
       - ${PWD}/downloads:/downloads

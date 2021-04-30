@@ -1,0 +1,4 @@
+config/
+download/
+node_modules
+npm-debug.log
