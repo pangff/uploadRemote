@@ -6,10 +6,10 @@ const {formatHttpError} = require("../utils/common.js")
 const Aria2 = require("aria2");
 
 const aria2 = new Aria2({
-    host: 'pi',
-    port: 6800,
+    host: 'aria2-pro',
+    port: process.env.ARIA2_RPC_PORT || 6800,
     secure: false,
-    secret: 'P3TERX',
+    secret: process.env.ARIA2_RPC_SECRET,
     path: '/jsonrpc'
 });
 
