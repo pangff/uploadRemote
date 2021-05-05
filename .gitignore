@@ -1,0 +1,6 @@
+config/
+download/
+node_modules
+npm-debug.log
+deploy.sh
+*.DS_Store

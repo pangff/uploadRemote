@@ -1,35 +1,33 @@
 version: "3.8"
-
 services:
 
   Aria2-Pro:
     container_name: aria2-pro
-    image: p3terx/aria2-pro
+    image: pangff/aria2-pro
     environment:
       - PUID=65534
       - PGID=65534
       - UMASK_SET=022
-      - RPC_SECRET=P3TERX
-      - RPC_PORT=6800
-      - LISTEN_PORT=6888
+      - RPC_SECRET=${ARIA2_RPC_SECRET}
+      - RPC_PORT=${ARIA2_RPC_PORT}
+      - LISTEN_PORT=${ARIA2_LISTEN_PORT}
       - DISK_CACHE=64M
       - IPV6_MODE=false
       - UPDATE_TRACKERS=true
       - CUSTOM_TRACKER_URL=
       - TZ=Asia/Shanghai
+      - SPECIAL_MODE=rclone
+      - RCLONE_DRIVE_NAME=${RCLONE_DRIVE_NAME}
+      - RCLONE_DRIVE_DIR=${RCLONE_DRIVE_DIR}
+      - UPLOAD_NOTICE_URL=${UPLOAD_NOTICE_URL}
     volumes:
       - ${PWD}/config:/config
       - ${PWD}/downloads:/downloads
-# If you use host network mode, then no port mapping is required.
-# This is the easiest way to use IPv6 networks.
-    network_mode: host
-#    network_mode: bridge
-#    ports:
-#      - 6800:6800
-#      - 6888:6888
-#      - 6888:6888/udp
+    ports:
+      - ${ARIA2_RPC_PORT}:${ARIA2_RPC_PORT}
+      - ${ARIA2_LISTEN_PORT}:${ARIA2_LISTEN_PORT}
+      - ${ARIA2_LISTEN_PORT}:${ARIA2_LISTEN_PORT}/udp
     restart: unless-stopped
-# Since Aria2 will continue to generate logs, limit the log size to 1M to prevent your hard disk from running out of space.
     logging:
       driver: json-file
       options:
@@ -39,11 +37,25 @@ services:
   AriaNg:
     container_name: ariang
     image: p3terx/ariang
-    command: --port 6880 --ipv6
-    network_mode: host
-#    network_mode: bridge
-#    ports:
-#      - 6880:6880
+    command: --port ${AriaNg_PORT} --ipv6
+    ports:
+      - ${AriaNg_PORT}:${AriaNg_PORT}
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+
+  # Aria2-Gateway is nodejs gateway.
+  Aria2-Gateway:
+    container_name: aria2-gateway
+    image: pangff/aria2-gateway
+    environment:
+      - ARIA2_RPC_SECRET=${ARIA2_RPC_SECRET}
+      - ARIA2_RPC_PORT=${ARIA2_RPC_PORT}
+      - ARIA2_GATEWAY_PORT=${ARIA2_GATEWAY_PORT}
+    ports:
+      - ${ARIA2_GATEWAY_PORT}:${ARIA2_GATEWAY_PORT}
     restart: unless-stopped
     logging:
       driver: json-file

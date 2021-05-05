@@ -1,0 +1,8 @@
+[oss]
+type = s3
+provider = Alibaba
+env_auth = false
+access_key_id = xxx
+secret_access_key = xxxx
+endpoint = oss-cn-beijing.aliyuncs.com
+acl = public-read
