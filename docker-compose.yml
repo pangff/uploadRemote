@@ -25,14 +25,41 @@ services:
       - ${PWD}/downloads:/downloads
     ports:
       - ${ARIA2_RPC_PORT}:${ARIA2_RPC_PORT}
-      - ${ARIA2_LISTEN_PORT}:${ARIA2_LISTEN_PORT}
-      - ${ARIA2_LISTEN_PORT}:${ARIA2_LISTEN_PORT}/udp
     restart: unless-stopped
     logging:
       driver: json-file
       options:
         max-size: 1m
-
+        
+  Aria2-Pro2:
+    container_name: aria2-pro2
+    image: pangff/aria2-pro
+    environment:
+      - PUID=65534
+      - PGID=65534
+      - UMASK_SET=022
+      - RPC_SECRET=${ARIA2_RPC_SECRET}
+      - RPC_PORT=${ARIA2_RPC_PORT}
+      - LISTEN_PORT=${ARIA2_LISTEN_PORT}
+      - DISK_CACHE=64M
+      - IPV6_MODE=false
+      - UPDATE_TRACKERS=true
+      - CUSTOM_TRACKER_URL=
+      - TZ=Asia/Shanghai
+      - SPECIAL_MODE=rclone
+      - RCLONE_DRIVE_NAME=${RCLONE_DRIVE_NAME}
+      - RCLONE_DRIVE_DIR=${RCLONE_DRIVE_DIR2}
+      - UPLOAD_NOTICE_URL=${UPLOAD_NOTICE_URL}
+    volumes:
+      - ${PWD}/config2:/config
+      - ${PWD}/downloads2:/downloads
+    ports:
+      - ${ARIA2_RPC_PORT2}:${ARIA2_RPC_PORT}
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
 # AriaNg is just a static web page, usually you only need to deploy on a single host.
   AriaNg:
     container_name: ariang
@@ -54,6 +81,7 @@ services:
       - ARIA2_RPC_SECRET=${ARIA2_RPC_SECRET}
       - ARIA2_RPC_PORT=${ARIA2_RPC_PORT}
       - ARIA2_GATEWAY_PORT=${ARIA2_GATEWAY_PORT}
+      - ARIA2_RPC_PORT2=${ARIA2_RPC_PORT2}
     ports:
       - ${ARIA2_GATEWAY_PORT}:${ARIA2_GATEWAY_PORT}
     restart: unless-stopped
