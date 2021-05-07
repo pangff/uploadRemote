@@ -95,3 +95,43 @@ urls:[{"url":"http://img.aiimg.com/uploads/userup/0909/2Z64022L38.jpg","name":"1
 ### 查看回调URL是否接收回调信息
 
 查看配置的UPLOAD_NOTICE_URL是否接收到回调消息
+
+## 配置不同类型下载到不同目录，上传到OSS不同目录(目前只支持OSS)
+
+clone 代码
+
+```
+git clone https://github.com/pangff/uploadRemote.git
+```
+
+切换到m2分支
+
+```
+cd uploadRemote
+git checkout m2
+```
+
+### 配置环境变量
+
+```
+cp env .env
+vim .env
+```
+对.env进行相关配置
+
+* ARIA2_RPC_SECRET=XXX_SECRET  （密钥，rpc连接使用）
+* ARIA2_RPC_PORT=6800 （aria2的rpc端口）
+* ARIA2_LISTEN_PORT=6888 （aria2的tcp协议监听端口）
+* AriaNg_PORT=6880 （AriaNg web服务的端口）
+* ARIA2_GATEWAY_PORT=30000 （Aria2 Gateway web服务的端口，该服务主要针对数据进行一次清洗过滤，然后提交到aria2，避免业务层直接使用aria2）
+* UPLOAD_NOTICE_URL=http://XXX_ （上传完成后，回调地址，会以http://XXX?s=1&n=filename 方式回调。s=0/1 0失败，1成功。n为回调文件名)
+* RCLONE_DRIVE_NAME=oss (rclone上传的云服务名称，目前只支持oss)
+* RCLONE_DRIVE_DIR=bucket/dir (云盘地址，oss上为 bucket名称/具体目录)
+
+... 在单个上传目录的配置基础上添加以下配置
+
+* ARIA2_RPC_PORT=6801 （第二个aria2的rpc端口）
+* RCLONE_DRIVE_DIR=bucket/dir (云盘地址，oss上为 bucket名称/具体目录)
+
+### 启动容器（同单个目录）
+### 配置rclone.conf（同单个目录）

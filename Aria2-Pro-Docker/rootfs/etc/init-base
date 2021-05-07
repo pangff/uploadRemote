@@ -70,8 +70,8 @@ CONVERSION_CORE() {
 }
 
 CONVERSION_SH() {
-    sed -i "/Upload done:/ a\            curl ${UPLOAD_NOTICE_URL}?s=1\&n=\${TASK_FILE_NAME}" "${SCRIPT_DIR}/upload.sh" 
-    sed -i "/Upload failed:/ a\                curl ${UPLOAD_NOTICE_URL}?s=0\&n=\${TASK_FILE_NAME}" "${SCRIPT_DIR}/upload.sh" 
+    sed -i "/Upload done:/ a\            curl '${UPLOAD_NOTICE_URL}?s=1\&n='\${TASK_FILE_NAME}" "${SCRIPT_DIR}/upload.sh" 
+    sed -i "/Upload failed:/ a\                curl '${UPLOAD_NOTICE_URL}?s=0\&n='\${TASK_FILE_NAME}" "${SCRIPT_DIR}/upload.sh" 
 }
 
 DOWNLOAD_PROFILE() {
