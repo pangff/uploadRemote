@@ -89,3 +89,18 @@ services:
       driver: json-file
       options:
         max-size: 1m
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    volumes:
+      - ${PROJECT_HOME}/nginx/conf.d:/etc/nginx/conf.d/:ro
+      - ${VIRTUAL_DIR}:/usr/share/nginx/html
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500M"
+        max-file: "200"
