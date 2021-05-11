@@ -1,5 +1,7 @@
 config/
 download/
+config2/
+download2/
 node_modules
 npm-debug.log
 deploy.sh
