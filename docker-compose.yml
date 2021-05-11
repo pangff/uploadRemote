@@ -23,8 +23,6 @@ services:
     volumes:
       - ${PWD}/config:/config
       - ${PWD}/downloads:/downloads
-    ports:
-      - ${ARIA2_RPC_PORT}:${ARIA2_RPC_PORT}
     restart: unless-stopped
     logging:
       driver: json-file
@@ -53,8 +51,6 @@ services:
     volumes:
       - ${PWD}/config2:/config
       - ${PWD}/downloads2:/downloads
-    ports:
-      - ${ARIA2_RPC_PORT2}:${ARIA2_RPC_PORT}
     restart: unless-stopped
     logging:
       driver: json-file
@@ -64,9 +60,7 @@ services:
   AriaNg:
     container_name: ariang
     image: p3terx/ariang
-    command: --port ${AriaNg_PORT} --ipv6
-    ports:
-      - ${AriaNg_PORT}:${AriaNg_PORT}
+    command: --port 6880 --ipv6
     restart: unless-stopped
     logging:
       driver: json-file
@@ -82,8 +76,6 @@ services:
       - ARIA2_RPC_PORT=${ARIA2_RPC_PORT}
       - ARIA2_GATEWAY_PORT=${ARIA2_GATEWAY_PORT}
       - ARIA2_RPC_PORT2=${ARIA2_RPC_PORT2}
-    ports:
-      - ${ARIA2_GATEWAY_PORT}:${ARIA2_GATEWAY_PORT}
     restart: unless-stopped
     logging:
       driver: json-file
